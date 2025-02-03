@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f7f7;
+        }
+
+        .container {
+            max-width: 500px;
+            margin-top: 60px;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .btn-custom {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        .already-have-account {
+            margin-top: 15px;
+        }
+
+        .already-have-account a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .already-have-account a:hover {
+            text-decoration: underline;
+        }
+
+        /* Real-time validation styles */
+        .is-valid {
+            border-color: #28a745;
+        }
+
+        .is-invalid {
+            border-color: #dc3545;
+        }
+
+        .invalid-feedback {
+            display: none;
+        }
+
+        .is-invalid + .invalid-feedback {
+            display: block;
+        }
+
+        /* Password strength meter */
+        .password-strength-meter {
+            height: 5px;
+            margin-top: 5px;
+        }
+
+        .password-strength-meter div {
+            height: 100%;
+        }
+
+        .strength-weak {
+            width: 33.33%;
+            background-color: #dc3545;
+        }
+
+        .strength-medium {
+            width: 66.66%;
+            background-color: #ffc107;
+        }
+
+        .strength-strong {
+            width: 100%;
+            background-color: #28a745;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2 class="text-center">Register</h2>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+                    <div class="invalid-feedback">Username is required.</div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password1" placeholder="Enter password" required>
+                    <div class="password-strength-meter mt-2">
+                        <div class="strength-weak"></div>
+                    </div>
+                    <div class="invalid-feedback">Password is required.</div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirm_password" name="password2" placeholder="Confirm password" required>
+                    <div class="invalid-feedback">Passwords do not match.</div>
+                </div>
+                <div class="form-group">
+                    <label for="role">Select Your Role</label>
+                    <select class="form-control" id="role" name="role" required>
+                        <option value="">Select a role</option>
+                        <option value="journalist">Journalist</option>
+                        <option value="editor">Editor</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <div class="invalid-feedback">Please select your role.</div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-custom">Register</button>
+                {% if form.errors %}
+                <div class="alert alert-danger mt-3">
+                    {{form.errors}}
+                </div>
+                {% endif %}
+            </form>
+            <div class="already-have-account text-center">
+                <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Real-time validation
+        document.querySelectorAll('input, select').forEach((element) => {
+            element.addEventListener('input', function () {
+                if (this.checkValidity()) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                }
+            });
+        });
+
+        // Password strength meter
+        const passwordInput = document.getElementById('password');
+        const strengthMeter = document.querySelector('.password-strength-meter div');
+
+        passwordInput.addEventListener('input', function () {
+            const value = passwordInput.value;
+            let strength = 0;
+
+            if (value.length >= 8) strength++;
+            if (/[A-Z]/.test(value)) strength++;
+            if (/[0-9]/.test(value)) strength++;
+            if (/[^A-Za-z0-9]/.test(value)) strength++;
+
+            if (strength <= 1) {
+                strengthMeter.className = 'strength-weak';
+            } else if (strength === 2) {
+                strengthMeter.className = 'strength-medium';
+            } else {
+                strengthMeter.className = 'strength-strong';
+            }
+        });
+
+        // Confirm password validation
+        const confirmPasswordInput = document.getElementById('confirm_password');
+
+        confirmPasswordInput.addEventListener('input', function () {
+            if (confirmPasswordInput.value !== passwordInput.value) {
+                confirmPasswordInput.classList.add('is-invalid');
+            } else {
+                confirmPasswordInput.classList.remove('is-invalid');
+                confirmPasswordInput.classList.add('is-valid');
+            }
+        });
+
+        // Form submission validation
+        document.querySelector('form').addEventListener('submit', function (event) {
+            const form = this;
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        });
+    </script>
+</body>
+
+</html>

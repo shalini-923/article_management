@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Articles</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .article-card {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .btn {
+            width: 48%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Review Articles</h2>
+        <div class="row">
+            {% if articles %}
+                {% for article in articles %}
+                    <div class="col-md-4">
+                        <div class="card article-card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ article.title }}</h5>
+                                <p class="card-text">{{ article.summary }}</p>
+                                <li>{{ article.title }} - {{ article.created_at }}</li>
+                                <a href="{% url 'article_detail' article.id %}" class="btn btn-primary btn-block">Review Article</a>
+                                <div class="btn-group">
+                                    <a href="{% url 'publish_article' article.id %}" 
+                                       class="btn btn-success {% if article.status == 'published' or article.status == 'rejected' %}disabled{% endif %}">
+                                        Publish
+                                    </a>
+                                    <a href="{% url 'reject_article' article.id %}" 
+                                       class="btn btn-danger {% if article.status == 'published' or article.status == 'rejected' %}disabled{% endif %}">
+                                        Reject
+                                    </a>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info" role="alert">
+                        No articles available for review.
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

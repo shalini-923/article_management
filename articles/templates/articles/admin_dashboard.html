@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .dashboard-card {
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .dashboard-card a {
+            display: block;
+            text-align: center;
+            padding: 20px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .dashboard-card.bg-primary {
+            background-color: #007bff;
+        }
+        .dashboard-card.bg-primary a {
+            color: #fff;
+        }
+        .dashboard-card.bg-success {
+            background-color: #28a745;
+        }
+        .dashboard-card.bg-success a {
+            color: #fff;
+        }
+        .dashboard-card.bg-info {
+            background-color: #17a2b8;
+        }
+        .dashboard-card.bg-info a {
+            color: #fff;
+        }
+        .dashboard-card.bg-secondary {
+            background-color: #6c757d;
+        }
+        .dashboard-card.bg-secondary a {
+            color: #fff;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .dashboard-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #343a40;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-header">
+            <h2>Admin Dashboard</h2>
+        </div>
+        <div class="card-container">
+            <div class="col-md-3">
+                <div class="card dashboard-card bg-primary">
+                    <a href="{% url 'manage_articles' %}">Manage Articles</a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard-card bg-success">
+                    <a href="{% url 'manage_users' %}">Manage Users</a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard-card bg-info">
+                    <a href="{% url 'edit_profile' %}">Edit Profile</a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard-card bg-secondary">
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
